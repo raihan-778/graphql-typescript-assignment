@@ -54,3 +54,4 @@ Check out our
 details.
 
 GITHUB_ACCESS_TOKEN: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
+DATABASE_URL="mongodb+srv://typescript-graphql-next:tYdhhfDpzwlIxyRp@cluster0.jz1qjld.mongodb.net/?retryWrites=true&w=majority"
