@@ -53,4 +53,4 @@ Check out our
 [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more
 details.
 
-github_access_token:"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"
+GITHUB_ACCESS_TOKEN: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
