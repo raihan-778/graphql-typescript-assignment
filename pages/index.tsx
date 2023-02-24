@@ -1,12 +1,9 @@
 import Head from "next/head";
-
 import { Inter } from "@next/font/google";
-import styles from "@/styles/Home.module.css";
 import NavBar from "@/components/NavBar/NavBar";
 import {
   ApolloClient,
   InMemoryCache,
-  ApolloProvider,
   createHttpLink,
   gql,
 } from "@apollo/client";
@@ -48,6 +45,55 @@ export async function getStaticProps() {
     link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
   });
+  // const client = ...
+
+  const { data } = await client.query({
+    query: gql`
+      query Viewer {
+        viewer {
+          login
+          pinnedItems(first: 6) {
+            totalCount
+            edges {
+              node {
+                ... on Repository {
+                  description
+                  id
+                  projectsUrl
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+  });
+
+  console.log(data);
+  // await client
+  //   .query({
+  //     query: gql`
+  //       query Viewer {
+  //         viewer {
+  //           login
+  //           pinnedItems(first: 6) {
+  //             totalCount
+  //             edges {
+  //               node {
+  //                 ... on Repository {
+  //                   description
+  //                   id
+  //                   projectsUrl
+  //                 }
+  //               }
+  //             }
+  //           }
+  //         }
+  //       }
+  //     `,
+  //   })
+  //   .then((result) => console.log(result));
+
   return {
     props: {},
   };
