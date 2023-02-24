@@ -1,17 +1,17 @@
 import Head from "next/head";
-import { Inter } from "@next/font/google";
-import NavBar from "@/components/NavBar/NavBar";
+import { setContext } from "@apollo/client/link/context";
 import {
   ApolloClient,
   InMemoryCache,
   createHttpLink,
   gql,
 } from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
+import NavBar from "@/components/NavBar/NavBar";
+import { InferGetStaticPropsType } from "next";
 
-const inter = Inter({ subsets: ["latin"] });
-
-export default function Home() {
+export default function Home(
+  props: InferGetStaticPropsType<typeof getStaticProps>
+) {
   return (
     <>
       <Head>
@@ -28,11 +28,13 @@ export default function Home() {
 }
 
 export async function getStaticProps() {
+  const token = process.env.GITHUB_ACCESS_TOKEN;
   const httpLink = createHttpLink({
     uri: "https://api.github.com/graphql",
   });
 
   const authLink = setContext((_, { headers }) => {
+    console.log(process.env.GITHUB_ACCESS_TOKEN);
     return {
       headers: {
         ...headers,
@@ -70,29 +72,6 @@ export async function getStaticProps() {
   });
 
   console.log(data);
-  // await client
-  //   .query({
-  //     query: gql`
-  //       query Viewer {
-  //         viewer {
-  //           login
-  //           pinnedItems(first: 6) {
-  //             totalCount
-  //             edges {
-  //               node {
-  //                 ... on Repository {
-  //                   description
-  //                   id
-  //                   projectsUrl
-  //                 }
-  //               }
-  //             }
-  //           }
-  //         }
-  //       }
-  //     `,
-  //   })
-  //   .then((result) => console.log(result));
 
   return {
     props: {},

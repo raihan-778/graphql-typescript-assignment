@@ -55,3 +55,4 @@ details.
 
 GITHUB_ACCESS_TOKEN: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
 DATABASE_URL="mongodb+srv://typescript-graphql-next:tYdhhfDpzwlIxyRp@cluster0.jz1qjld.mongodb.net/?retryWrites=true&w=majority"
+GITHUB_ACCESS_TOKEN_LAPTOP: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
