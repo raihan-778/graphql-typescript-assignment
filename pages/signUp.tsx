@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-const signUp = (props) => {
+const signUp = () => {
   return (
     <div className="flex bg-[#fff] mx-auto my-5 h-[800px] justify-center  items-center">
       <div>

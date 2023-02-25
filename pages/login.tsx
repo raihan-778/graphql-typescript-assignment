@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 import Link from "next/link";
 
-const login = (props) => {
+const login = () => {
   return (
     <>
       <div className="flex bg-[#fff] my-5 mx-auto  h-[800px] justify-center  items-center">

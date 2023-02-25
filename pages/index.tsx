@@ -7,11 +7,10 @@ import {
   gql,
 } from "@apollo/client";
 import NavBar from "@/components/NavBar/NavBar";
-import { InferGetStaticPropsType } from "next";
 import MyPinnedRepo from "@/components/MyPinnedRepo/MyPinnedRepo";
 
 export default function Home({ pinnedItems }) {
-  console.log(pinnedItems);
+  console.log({ pinnedItems });
   return (
     <>
       <Head>
@@ -30,16 +29,16 @@ export default function Home({ pinnedItems }) {
 
 export async function getStaticProps() {
   const token = process.env.GITHUB_ACCESS_TOKEN;
+  console.log(token);
   const httpLink = createHttpLink({
     uri: "https://api.github.com/graphql",
   });
 
   const authLink = setContext((_, { headers }) => {
-    console.log(process.env.GITHUB_ACCESS_TOKEN);
     return {
       headers: {
         ...headers,
-        authorization: `Bearer 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`,
+        authorization: `Bearer ${token}`,
       },
     };
   });
@@ -60,7 +59,7 @@ export async function getStaticProps() {
             edges {
               node {
                 ... on Repository {
-                  description
+                  name
                   id
                   projectsUrl
                 }
@@ -73,10 +72,17 @@ export async function getStaticProps() {
   });
 
   const { viewer } = data;
-  const pinnedItems = viewer.pinnedItems.edges.map(({ node }) => node);
+
+  const pinnedItems = viewer.pinnedItems.edges.map(
+    (node: {
+      id?: string | undefined;
+      projectsUrl?: string | undefined;
+      name?: string;
+    }) => node
+  );
   console.log(pinnedItems);
 
   return {
-    props: {},
+    props: pinnedItems,
   };
 }
