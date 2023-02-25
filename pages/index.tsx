@@ -8,10 +8,10 @@ import {
 } from "@apollo/client";
 import NavBar from "@/components/NavBar/NavBar";
 import { InferGetStaticPropsType } from "next";
+import MyPinnedRepo from "@/components/MyPinnedRepo/MyPinnedRepo";
 
-export default function Home(
-  props: InferGetStaticPropsType<typeof getStaticProps>
-) {
+export default function Home({ pinnedItems }) {
+  console.log(pinnedItems);
   return (
     <>
       <Head>
@@ -22,6 +22,7 @@ export default function Home(
       </Head>
       <main>
         <NavBar></NavBar>
+        <MyPinnedRepo></MyPinnedRepo>
       </main>
     </>
   );
@@ -38,7 +39,7 @@ export async function getStaticProps() {
     return {
       headers: {
         ...headers,
-        authorization: `Bearer ${process.env.GITHUB_ACCESS_TOKEN}`,
+        authorization: `Bearer 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`,
       },
     };
   });
@@ -71,7 +72,9 @@ export async function getStaticProps() {
     `,
   });
 
-  console.log(data);
+  const { viewer } = data;
+  const pinnedItems = viewer.pinnedItems.edges.map(({ node }) => node);
+  console.log(pinnedItems);
 
   return {
     props: {},
