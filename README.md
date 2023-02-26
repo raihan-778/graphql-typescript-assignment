@@ -53,6 +53,6 @@ Check out our
 [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more
 details.
 
-GITHUB_ACCESS_TOKEN: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
+GITHUB_ACCESS_TOKEN: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
 DATABASE_URL="mongodb+srv://typescript-graphql-next:tYdhhfDpzwlIxyRp@cluster0.jz1qjld.mongodb.net/?retryWrites=true&w=majority"
 GITHUB_ACCESS_TOKEN_LAPTOP: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

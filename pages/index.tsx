@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { setContext } from "@apollo/client/link/context";
+
 import {
   ApolloClient,
   InMemoryCache,
@@ -9,8 +10,16 @@ import {
 import NavBar from "@/components/NavBar/NavBar";
 import MyPinnedRepo from "@/components/MyPinnedRepo/MyPinnedRepo";
 
-export default function Home({ pinnedItems }) {
-  console.log({ pinnedItems });
+interface PinnedItem {
+  name: string;
+  id: string;
+  projectsUrl: string;
+}
+
+type PinnedItems = PinnedItem[];
+
+export default function Home({ pinnedItems }: { pinnedItems: PinnedItems }) {
+  console.log(pinnedItems);
   return (
     <>
       <Head>
@@ -21,14 +30,14 @@ export default function Home({ pinnedItems }) {
       </Head>
       <main>
         <NavBar></NavBar>
-        <MyPinnedRepo></MyPinnedRepo>
+        <MyPinnedRepo pinnedItems={pinnedItems}></MyPinnedRepo>
       </main>
     </>
   );
 }
 
 export async function getStaticProps() {
-  const token = process.env.GITHUB_ACCESS_TOKEN;
+  const token = "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";
   console.log(token);
   const httpLink = createHttpLink({
     uri: "https://api.github.com/graphql",
@@ -38,7 +47,7 @@ export async function getStaticProps() {
     return {
       headers: {
         ...headers,
-        authorization: `Bearer ${token}`,
+        authorization: `Bearer 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`,
       },
     };
   });
@@ -71,18 +80,18 @@ export async function getStaticProps() {
     `,
   });
 
-  const { viewer } = data;
+  let { viewer } = data;
+  console.log(data);
 
-  const pinnedItems = viewer.pinnedItems.edges.map(
-    (node: {
-      id?: string | undefined;
-      projectsUrl?: string | undefined;
-      name?: string;
-    }) => node
+  let pinnedItems = viewer.pinnedItems.edges.map(
+    ({ node }: { node: PinnedItem }) => node
   );
+
   console.log(pinnedItems);
 
   return {
-    props: pinnedItems,
+    props: {
+      pinnedItems,
+    },
   };
 }

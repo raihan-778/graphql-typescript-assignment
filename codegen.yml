@@ -1,0 +1,8 @@
+overwrite: true
+schema: "graphql/generated/github-schema-loader.tsx"
+generates:
+  graphql/generated/graphql.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-resolvers"
+      - "typescript-document-nodes"
